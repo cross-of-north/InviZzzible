@@ -1,5 +1,5 @@
 //
-// Copyright (c) Antony Polukhin, 2012-2014.
+// Copyright 2012-2023 Antony Polukhin.
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,6 +18,26 @@
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 # pragma once
+#endif
+
+
+
+#include <boost/config/pragma_message.hpp>
+#if defined(BOOST_NO_CXX11_RVALUE_REFERENCES) || \
+    defined(BOOST_NO_CXX11_AUTO_DECLARATIONS) || \
+    defined(BOOST_NO_CXX11_CONSTEXPR) || \
+    defined(BOOST_NO_CXX11_NULLPTR) || \
+    defined(BOOST_NO_CXX11_NOEXCEPT) || \
+    defined(BOOST_NO_CXX11_DEFAULTED_FUNCTIONS) || \
+    defined(BOOST_NO_CXX11_FINAL) || \
+    defined(BOOST_NO_CXX11_ALIGNOF) || \
+    defined(BOOST_NO_CXX11_STATIC_ASSERT) || \
+    defined(BOOST_NO_CXX11_SMART_PTR) || \
+    defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST) || \
+    defined(BOOST_NO_CXX11_HDR_TYPE_TRAITS)
+
+BOOST_PRAGMA_MESSAGE("C++03 support is deprecated in Boost.TypeIndex 1.82 and will be removed in Boost.TypeIndex 1.84.")
+
 #endif
 
 #if defined(BOOST_TYPE_INDEX_USER_TYPEINDEX)
@@ -234,7 +254,7 @@ inline type_index type_id_with_cvr() BOOST_NOEXCEPT {
 
 /// Function that works exactly like C++ typeid(rtti_val) call, but returns boost::type_index.
 ///
-/// Retunrs runtime information about specified type.
+/// Returns runtime information about specified type.
 ///
 /// \b Requirements: RTTI available or Base and Derived classes must be marked with BOOST_TYPE_INDEX_REGISTER_CLASS.
 ///
@@ -249,7 +269,7 @@ inline type_index type_id_with_cvr() BOOST_NOEXCEPT {
 /// std::cout << ti.pretty_name();  // Outputs 'Derived'
 /// \endcode
 ///
-/// \param runtime_val Varaible which runtime type must be returned.
+/// \param runtime_val Variable which runtime type must be returned.
 /// \throw Nothing.
 /// \return boost::typeindex::type_index with information about the specified variable.
 template <class T>

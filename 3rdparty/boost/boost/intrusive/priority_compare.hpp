@@ -26,7 +26,19 @@
 namespace boost {
 namespace intrusive {
 
-template <class T>
+/// @cond
+
+namespace adldft {
+
+template<class T, class U>
+BOOST_INTRUSIVE_FORCEINLINE bool priority_order(const T &t, const U &u)
+{  return t < u;  }
+
+}  //namespace adldft {
+
+/// @endcond
+
+template <class T = void>
 struct priority_compare
 {
    //Compatibility with std::binary_function
@@ -36,21 +48,33 @@ struct priority_compare
 
    BOOST_INTRUSIVE_FORCEINLINE bool operator()(const T &val, const T &val2) const
    {
+      using adldft::priority_order;
       return priority_order(val, val2);
+   }
+};
+
+template <>
+struct priority_compare<void>
+{
+   template<class T, class U>
+   BOOST_INTRUSIVE_FORCEINLINE bool operator()(const T &t, const U &u) const
+   {
+      using adldft::priority_order;
+      return priority_order(t, u);
    }
 };
 
 /// @cond
 
 template<class PrioComp, class T>
-struct get_prio
+struct get_prio_comp
 {
    typedef PrioComp type;
 };
 
 
 template<class T>
-struct get_prio<void, T>
+struct get_prio_comp<void, T>
 {
    typedef ::boost::intrusive::priority_compare<T> type;
 };
